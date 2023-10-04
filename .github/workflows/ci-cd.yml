@@ -22,21 +22,7 @@ jobs:
         run: npm install
 
       - name: Run tests and save results
-        run: |
-          npm test > test-results.txt || echo "Tests failed"
+        run: npm test
 
-      - name: Provide feedback
-        id: test-results
-        run: |
-          echo "::set-output name=tests_passed::$(grep -q 'Test summary: Passed' test-results.txt && \
-          echo 'true' || echo 'false')"
-
-      - name: Check test results
-        run: |
-          if [ "${{ steps.test-results.outputs.tests_passed }}" == "true" ]; then
-            echo "Tests passed! 🎉"
-          else
-            echo "Tests failed! ❌"
-            exit 1
-          fi
-
+      - name: Deploy to prod 
+        run: echo "Deploying to production."
