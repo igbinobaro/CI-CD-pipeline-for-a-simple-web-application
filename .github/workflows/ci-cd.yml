@@ -21,9 +21,18 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run tests
-      run: npm test
+    - name: Run tests and save results
+      run: npm test > test-results.txt || echo "Tests failed"
+    
+    - name: Analyze test results
+      id: test-results
+      run: echo "::set-output name=tests_passed::$(grep -q 'Test summary: Passed' test-results.txt && echo true || echo false)"
 
-    - name: Deploy to production
-      # Add your deployment steps here
-      run: echo "Deploying to production"
+    - name: Provide feedback
+      run: |
+        if [ "${{ steps.test-results.outputs.tests_passed }}" == "true" ]; then
+          echo "Tests passed! 🎉"
+        else
+          echo "Tests failed! ❌"
+          exit 1
+        fi
