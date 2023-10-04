@@ -13,7 +13,7 @@ const chrome = require('selenium-webdriver/chrome');
     try {
         await driver.get('file://' + __dirname + '/index.html');
 
-        const button = await driver.findElement(By.tagName('button'));
+        const button = await driver.findElement(By.css(tagName)('button'));
         await button.click();
 
         // Wait for an alert to appear and accept it
