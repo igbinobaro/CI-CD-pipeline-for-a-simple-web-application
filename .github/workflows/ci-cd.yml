@@ -10,29 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run tests and save results
-      run: npm test > test-results.txt || echo "Tests failed"
-    
-    - name: Analyze test results
-      id: test-results
-      run: echo "::set-output name=tests_passed::$(grep -q 'Test summary: Passed' test-results.txt && echo 'true' || echo 'false')"
+      - name: Run tests and save results
+        run: |
+          npm test > test-results.txt || echo "Tests failed"
 
-    - name: Provide feedback
-      run: |
-        if [ "${{ steps.test-results.outputs.tests_passed }}" == "true" ]; then
-          echo "Tests passed! 🎉"
-        else
-          echo "Tests failed! ❌"
-          exit 1
-        fi
+      - name: Provide feedback
+        id: test-results
+        run: |
+          echo "::set-output name=tests_passed::$(grep -q 'Test summary: Passed' test-results.txt && \
+          echo 'true' || echo 'false')"
+
+      - name: Check test results
+        run: |
+          if [ "${{ steps.test-results.outputs.tests_passed }}" == "true" ]; then
+            echo "Tests passed! 🎉"
+          else
+            echo "Tests failed! ❌"
+            exit 1
+          fi
+
