@@ -1,25 +1,32 @@
-name: Selenium Tests
-
+name: Selenium Test
 on:
   push:
     branches:
       - main
 
 jobs:
-  test:
+  your_job:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      # Add this step to install Chrome WebDriver
+      - name: Install Chrome WebDriver
+        run: |
+          wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip -d C:\Users\user\CI-CD-pipeline-for-a-simple-web-application
+        # Adjust the URL and path accordingly
 
-    - name: Install dependencies
-      run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Run Selenium Tests
-      run: node selenium_test.js
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Selenium Tests
+        run: node ./selenium_test.js
+
