@@ -26,4 +26,4 @@ jobs:
 
     - name: Deploy to production
       # Add your deployment steps here
-      run: echo "Deploying to production..."
+      run: echo "Deploying to production"
