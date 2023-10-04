@@ -1,3 +1,1 @@
-function sayHello() {
-    alert('Hello, World!');
-}
+console.log("Script loaded successfully!");
